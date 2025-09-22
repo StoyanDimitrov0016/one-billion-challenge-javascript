@@ -1,5 +1,5 @@
+import { readFile } from "fs/promises";
 import { main } from "./main.js";
-import { clear_city_measurements_map } from "./city_measurements_map.js";
 
 const results: number[] = [];
 
@@ -8,11 +8,32 @@ async function index() {
   await main();
   const end = performance.now();
 
+  const expected_result = await readFile(
+    new URL("../weather_stations/measurements-100000.out", import.meta.url),
+    {
+      encoding: "utf-8",
+    }
+  );
+  const current_result = await readFile(new URL("../output.txt", import.meta.url), {
+    encoding: "utf-8",
+  });
+
+  const expected_rows = expected_result.split(", ");
+  const current_rows = current_result.split(", ");
+
+  for (let i = 0; i < expected_rows.length; i++) {
+    const expected_row = expected_rows[i];
+    const current_row = current_rows[i];
+
+    if (expected_row !== current_row) {
+      throw new Error(`\nReceived: ${current_row}\nExpected: ${expected_row}\nPosition: ${i++}`);
+    }
+  }
+
   results.push(+(end - start).toFixed(1));
-  clear_city_measurements_map();
 }
 
-const loops = 100;
+const loops = 1;
 for (let i = 0; i < loops; i++) {
   await index();
 }

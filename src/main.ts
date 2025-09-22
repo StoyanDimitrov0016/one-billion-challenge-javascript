@@ -1,31 +1,28 @@
-import { writeFile } from "node:fs/promises";
-import { aggregate_records } from "./aggregate_records.js";
-import type { Measurement } from "./city_measurements_map.js";
-import { create_output_item } from "./create_output_item.js";
-
-const output_path = new URL("../out.csv", import.meta.url);
-
-type TempSortableItem = [city: string, min: number, mean: number, max: number];
-
-function transform_to_sortable_array(temp_map: Map<string, Measurement>) {
-  const out_array: TempSortableItem[] = [];
-
-  for (const [city, { min, max, count, sum }] of temp_map) {
-    const mean = sum / count;
-    out_array.push([city, min, mean, max]);
-  }
-
-  return out_array;
-}
+import { Storage } from "./Storage.js";
+import { Aggregator } from "./Aggregator.js";
+import { Reader } from "./Reader.js";
+import { Transformer } from "./Transformer.js";
+import { Writer } from "./Writer.js";
 
 export async function main() {
-  const records = await aggregate_records();
-  const sortable = transform_to_sortable_array(records);
+  const input_filename = "weather_stations/measurements-100000.txt" as const;
+  const input_path = new URL(`../${input_filename}`, import.meta.url);
 
-  const parsed = sortable
-    .sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
-    .map((item) => create_output_item(item[0], item[1], item[2], item[3]))
-    .join(", ");
+  const output_filename = "output.txt" as const;
+  const output_path = new URL(`../${output_filename}`, import.meta.url);
 
-  await writeFile(output_path, `{${parsed}}\n`, "utf8");
+  const storage = new Storage();
+  const aggregator = new Aggregator(storage, ";");
+  const reader = new Reader({ path: input_path, chunk_size_bytes: 262_144 }, aggregator);
+  const transformer = new Transformer();
+  const writer = new Writer(output_path);
+
+  await reader.exec();
+
+  const sorted_cities = Array.from(storage.state().keys()).sort();
+
+  const map = storage.state();
+  const output = sorted_cities.map((city) => transformer.exec(city, map.get(city)!)).join(", ");
+
+  writer.exec("{" + output + "}\r\n");
 }
