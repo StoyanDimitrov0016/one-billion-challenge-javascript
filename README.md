@@ -1,17 +1,18 @@
 # One Billion Row Challenge (1BRC) — JavaScript, Single-Thread
 
-- A hobby attempt at the 1BRC in Node.js, inspired by [this video]("https://www.youtube.com/watch?v=apREl0KmTdQ")
+- A hobby attempt at the 1BRC in Node.js, inspired by [this video](https://www.youtube.com/watch?v=apREl0KmTdQ)
 - Following the Atwood’s Law: “Any application that can be written in JavaScript, will eventually be written in JavaScript.”
 - I love snake_case, so you’ll see it throughout even if it’s not the conventional JS style.
 - Purposefully tried to make it OOP-ish
-- The best JavaScript article about the solution is [this one]("https://jackyef.com/posts/1brc-nodejs-learnings")
+- The best JavaScript article about the solution is [this one](https://jackyef.com/posts/1brc-nodejs-learnings)
+- Tried doing it myself without AI (failed at the round toward positive number) so I can challenge myself
 
-# Things that I leaned
+# Things that I learned
 
 ## Readable streams
 
 - I understood that I can't simply read a 12 GB file and store it in memory.
-- Used sed for the first time readable streams in JS and `for await` iterator
+- Used for the first time readable streams in JS and `for await` iterator
 
 ## Chunk alignment and carryover
 
@@ -54,7 +55,7 @@ test loops: 100
 # Dataset caveats
 
 - I didn’t use the full 1,000,000,000-row dataset (~12+ GB).
-- Instead, I tested on subsets from [HuggingFace]("https://huggingface.co/datasets/nietras/1brc.data/tree/main")
+- Instead, I tested on subsets from [HuggingFace](https://huggingface.co/datasets/nietras/1brc.data/tree/main)
 - Running on the full dataset might reveal edge cases or very different performance numbers.
 
 # Disclaimer
