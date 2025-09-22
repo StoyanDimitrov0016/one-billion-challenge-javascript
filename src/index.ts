@@ -33,7 +33,7 @@ async function index() {
   results.push(+(end - start).toFixed(1));
 }
 
-const loops = 1;
+const loops = 100;
 for (let i = 0; i < loops; i++) {
   await index();
 }
