@@ -58,9 +58,13 @@ test loops: 100
 - Instead, I tested on subsets from [HuggingFace](https://huggingface.co/datasets/nietras/1brc.data/tree/main)
 - Running on the full dataset might reveal edge cases or very different performance numbers.
 
-# Disclaimer
+# Bugs I hit
+
+## Rounding bug
 
 The initial "round toward positive" implementation had an issue at "Abéché" where the right mean temperature was 28.5 and I had it 28.6 because of some odd number leftover and had to ask GPT how to solve this issue and changed the approach.
+
+### Original round toward positive implementation
 
 ```typescript
 Math.ceil(mean * 10) / 10;
