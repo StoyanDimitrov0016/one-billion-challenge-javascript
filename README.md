@@ -30,12 +30,12 @@
 const [city, temp_as_string] = row.split(this.divider);
 ```
 
-test loops: 100
+test run count: 100
 
-- min run: 37.5
-- median run: 40.6
-- avg run: 41.5
-- max run: 61.3
+- min run: 37.5 ms
+- median run: 40.6 ms
+- avg run: 41.5 ms
+- max run: 61.3 ms
 
 ### Improved strategy (faster)
 
@@ -46,12 +46,12 @@ const city = row.slice(0, divider_position);
 const temp_as_string = row.slice(divider_position + 1);
 ```
 
-test loops: 100
+test run count: 100
 
-- min run: 21.9
-- median run: 23.5
-- avg run: 24
-- max run: 34.9
+- min run: 21.9 ms
+- median run: 23.5 ms
+- avg run: 24 ms
+- max run: 34.9 ms
 
 # Dataset caveats
 
