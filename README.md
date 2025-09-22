@@ -6,6 +6,7 @@
 - Purposefully tried to make it OOP-ish
 - The best JavaScript article about the solution is [this one](https://jackyef.com/posts/1brc-nodejs-learnings)
 - Tried doing it myself without AI (failed at the round toward positive number) so I can challenge myself
+- Original 1BRC GitHub is [this one](https://github.com/gunnarmorling/1brc)
 
 # Things that I learned
 
